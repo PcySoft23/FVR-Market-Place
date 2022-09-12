@@ -1,0 +1,54 @@
+public class MainActivity extends AppCompatActivity {
+
+    private Button btnCalc;
+    private EditText edtPeso, edtAltura;
+    private TextView txtResultado;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        btnCalc = (Button)findViewById(R.id.btnCalcular);
+        edtAltura = (EditText) findViewById(R.id.edtAltura);
+        edtPeso = (EditText) findViewById(R.id.edtPeso);
+        txtResultado = (TextView)findViewById(R.id.txtResultado);
+    }
+
+    public void calcular(View view){
+        if(!validar(edtAltura) && !validar(edtPeso)){
+            Toast.makeText(this, "Erro input", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        float a = Float.parseFloat(edtAltura.getText().toString());
+        float b= Float.parseFloat(edtPeso.getText().toString());
+        float imc = b / (float)Math.pow(a, 2);
+
+        String classificacao = new String();
+
+        if(imc < 16){
+            classificacao = "Magro";
+        }else if(imc < 20) {
+            classificacao = "Normal";
+        }else if(imc < 25){
+            classificacao = "Ta de boa";
+        }else if(imc < 35){
+            classificacao = "Gordinho";
+        }else{
+            classificacao = "Bola";
+        }
+
+        txtResultado.setText("Resultado: " + String.valueOf(imc) + " - " + classificacao);
+    }
+
+    public boolean validar(View view){
+        TextView textView = (TextView) view;
+
+        if(textView.getText().toString() == null
+                || textView.getText().toString().equals("")
+                || Float.parseFloat(textView.getText().toString()) <= 0)
+            return false;
+        return true;
+    }
+}
